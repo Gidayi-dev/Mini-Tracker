@@ -1,4 +1,4 @@
-const url = process.env.DATABASE_URL ?? "";
+const url = process.env.DATABASE_URL;
 
 let dbName = "";
 try {
