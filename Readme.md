@@ -178,11 +178,8 @@ I kept the stack small on purpose: Express with a thin routes and service split,
 
 ### Assumptions
 
-- `title` is required, trimmed, and 1 to 200 characters. `description` is optional, up to 5000 characters.
-- New tickets default to status `open` and priority `medium` when not provided.
-- `PATCH /tickets/:id` accepts only `status` and `priority`, as in the brief. Unknown fields and empty bodies are rejected with 400.
-- `limit` defaults to 20 with a maximum of 100. Out-of-range or non-numeric pagination values and unknown statuses return 400 instead of being silently corrected.
-- `GET /tickets` returns newest first, with `id` as a tiebreaker, and includes the `total` for the active filter.
-- `GET /tickets/stats` always returns all three statuses, with zeros included.
-- Timestamps are stored and returned in UTC (ISO 8601).
+- `title` is required (1 to 200 characters after trimming). New tickets default to status `open` and priority `medium`.
+- `PATCH /tickets/:id` accepts only `status` and `priority`, as in the brief. Unknown fields and empty bodies return 400.
+- Invalid pagination values (such as `limit=500`) and unknown statuses return 400 instead of being silently corrected, so clients learn about their mistake.
+- `GET /tickets` is ordered newest first, and `GET /tickets/stats` always returns all three statuses, including zeros.
 - No authentication or multi-user support, since the brief did not ask for it.
