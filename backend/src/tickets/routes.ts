@@ -1,11 +1,6 @@
 import { Router } from "express";
-import {
-  createTicketSchema,
-  listTicketsQuerySchema,
-  ticketIdParamSchema,
-  updateTicketSchema,
-} from "./schemas";
-import * as service from "./service";
+import { createTicketSchema, listTicketsQuerySchema, ticketIdParamSchema, updateTicketSchema } from "./schemas.js";
+import * as service from './service.js'
 
 export const ticketsRouter = Router();
 

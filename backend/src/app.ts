@@ -1,6 +1,6 @@
 import e from "express"
-import { ticketsRouter } from "./tickets/routes";
-import { errorHandler, notFound } from "./middleware/errorHandler";
+import { ticketsRouter } from "./tickets/routes.js";
+import { errorHandler, notFound } from "./middleware/errorHandler.js";
 
 export function createApp() {
   const app = e();

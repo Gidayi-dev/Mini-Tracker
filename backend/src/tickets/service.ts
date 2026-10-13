@@ -1,12 +1,8 @@
 import { Prisma } from "@prisma/client";
 import type { TicketStatus } from "@prisma/client";
-import { prisma } from "../db";
-import { AppError } from "../errors";
-import type {
-  CreateTicketInput,
-  ListTicketsQuery,
-  UpdateTicketInput,
-} from "./schemas";
+import { prisma } from "../db.js";
+import { AppError } from "../errors.js";
+import type { CreateTicketInput, ListTicketsQuery, UpdateTicketInput } from "./schemas.js";
 
 export function createTicket(input: CreateTicketInput) {
   return prisma.ticket.create({ data: input });

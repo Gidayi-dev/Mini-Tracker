@@ -1,6 +1,6 @@
 import type { ErrorRequestHandler, RequestHandler } from "express";
 import { ZodError } from "zod";
-import { AppError } from "../errors";
+import { AppError } from "../errors.js";
 
 export const notFound: RequestHandler = (_req, res) => {
   res.status(404).json({
