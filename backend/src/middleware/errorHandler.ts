@@ -14,9 +14,12 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
       error: {
         code: "VALIDATION_ERROR",
         message: "Invalid request",
-        details: err.issues.map((i) => ({
-          field: i.path.map(String).join("."),
-          message: i.message,
+        details: err.issues.map((issue) => ({
+          field:
+            issue.code === "unrecognized_keys"
+              ? issue.keys.join(", ")
+              : issue.path.map(String).join("."),
+          message: issue.message,
         })),
       },
     });
@@ -30,7 +33,6 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     return;
   }
 
-  // express.json() throws this for malformed JSON bodies
   if (err?.type === "entity.parse.failed") {
     res.status(400).json({
       error: { code: "INVALID_JSON", message: "Request body is not valid JSON" },

@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { createTicketSchema, listTicketsQuerySchema } from "./schemas";
+import {
+  createTicketSchema,
+  listTicketsQuerySchema,
+  ticketIdParamSchema,
+  updateTicketSchema,
+} from "./schemas";
 import * as service from "./service";
 
 export const ticketsRouter = Router();
@@ -15,6 +20,13 @@ ticketsRouter.get("/", async (req, res) => {
   res.json(await service.listTickets(query));
 });
 
+// Must be registered before any "/:id" route
 ticketsRouter.get("/stats", async (_req, res) => {
   res.json(await service.getStats());
+});
+
+ticketsRouter.patch("/:id", async (req, res) => {
+  const { id } = ticketIdParamSchema.parse(req.params);
+  const input = updateTicketSchema.parse(req.body);
+  res.json(await service.updateTicket(id, input));
 });

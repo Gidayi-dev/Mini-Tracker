@@ -1,6 +1,12 @@
+import { Prisma } from "@prisma/client";
 import type { TicketStatus } from "@prisma/client";
 import { prisma } from "../db";
-import type { CreateTicketInput, ListTicketsQuery } from "./schemas";
+import { AppError } from "../errors";
+import type {
+  CreateTicketInput,
+  ListTicketsQuery,
+  UpdateTicketInput,
+} from "./schemas";
 
 export function createTicket(input: CreateTicketInput) {
   return prisma.ticket.create({ data: input });
@@ -39,4 +45,19 @@ export async function getStats() {
   }
 
   return stats;
+}
+
+export async function updateTicket(id: number, input: UpdateTicketInput) {
+  try {
+    return await prisma.ticket.update({ where: { id }, data: input });
+  } catch (err) {
+   
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === "P2025"
+    ) {
+      throw new AppError(404, "TICKET_NOT_FOUND", `Ticket ${id} not found`);
+    }
+    throw err;
+  }
 }
